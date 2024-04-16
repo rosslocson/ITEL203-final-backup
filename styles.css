@@ -1,0 +1,48 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFBE98;
+    background-attachment: fixed; /* Fixed background image */
+    
+}
+
+h2, h1 { 
+    color: black;
+    
+    
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+}
+nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+   
+}
+nav ul li a {
+    color: black;
+    text-decoration: none;
+   
+    
+}
+main {
+    padding: 20px;
+}
+section {
+    margin-bottom: 20px; 
+    background-color: white;
+    margin: 10%;
+}
+#logo {
+    width: 150px; /* Set the width of the logo */
+    height: 150px; /* Set the height of the logo */
+    border-radius: 50%; /* Make the logo a circle */
+    margin-top: 20px; /* Add some margin to separate the logo from the heading */
+    padding: 20px;
+}
