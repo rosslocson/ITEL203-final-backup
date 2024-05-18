@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Paws & Play</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#myPage">Paws & Play</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html#home">HOME</a></li>
+                    <li><a href="package.html">AVAIL PACKAGES</a></li>
+                    <li><a href="index.html#contact">CONTACT US</a></li>
+                    <li><a href="logout.php">LOG OUT</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<section>
+    <!-- Container (Profile Section) -->
+    <div id="profile" class="container-fluid">
+        <div class="row">
+            <div class="col-sm-8">
+                <br>
+                <h1> ORDER NOW! Select the product you want to avail. </h1>
+                <br>
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Product Code</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total Price</th>
+                                <th>Add to Cart</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Basic Grooming (Small Pets)</td>
+                                <td>1</td>
+                                <td>550.00</td>
+                                <td><input type="number" name="quantity1"></td>
+                                <td><span id="total1"></span></td>
+                                <td><button onclick="addToCart(1)">Add to Cart</button></td>
+                             
+                            </tr>
+
+                            <tr>
+                                <td>Basic Grooming (Medium Pets)</td>
+                                <td>2</td>
+                                <td>650.00</td>
+                                <td><input type="number" name="quantity2"></td>
+                                <td><span id="total2"></span></td>
+                                <td><button onclick="addToCart(2)">Add to Cart</button></td>
+                             
+                            </tr>
+
+                            <tr>
+                                <td>Basic Grooming (Large Pets)</td>
+                                <td>3</td>
+                                <td>750.00</td>
+                                <td><input type="number" name="quantity3"></td>
+                                <td><span id="total3"></span></td>
+                                <td><button onclick="addToCart(3)">Add to Cart</button></td>
+                              
+                            </tr>
+
+                            <tr>
+                                <td>Full Grooming (Small Pets)</td>
+                                <td>4</td>
+                                <td>700.00</td>
+                                <td><input type="number" name="quantity4"></td>
+                                <td><span id="total4"></span></td>
+                                <td><button onclick="addToCart(4)">Add to Cart</button></td>
+                             
+                            </tr>
+
+                            <tr>
+                                <td>Full Grooming (Medium Pets)</td>
+                                <td>5</td>
+                                <td>850.00</td>
+                                <td><input type="number" name="quantity5"></td>
+                                <td><span id="total5"></span></td>
+                                <td><button onclick="addToCart(5)">Add to Cart</button></td>
+                               
+                            </tr>
+
+                            <tr>
+                                <td>Full Grooming (Large Pets)</td>
+                                <td>6</td>
+                                <td>950.00</td>
+                                <td><input type="number" name="quantity6"></td>
+                                <td><span id="total6"></span></td>
+                                <td><button onclick="addToCart(6)">Add to Cart</button></td>
+                              
+                            </tr>
+
+                            <tr>
+                                <td>Basic Haircut</td>
+                                <td>7</td>
+                                <td>300.00</td>
+                                <td><input type="number" name="quantity7"></td>
+                                <td><span id="total7"></span></td>
+                                <td><button onclick="addToCart(7)">Add to Cart</button></td>
+                               
+                            </tr>
+
+                            <tr>
+                                <td>Face Trim</td>
+                                <td>8</td>
+                                <td>200.00</td>
+                                <td><input type="number" name="quantity8"></td>
+                                <td><span id="total8"></span></td>
+                                <td><button onclick="addToCart(8)">Add to Cart</button></td>
+                                
+                            </tr>
+
+                            <tr>
+                                <td>Paw Trimming</td>
+                                <td>9</td>
+                                <td>150.00</td>
+                                <td><input type="number" name="quantity9"></td>
+                                <td><span id="total9"></span></td>
+                                <td><button onclick="addToCart(9)">Add to Cart</button></td>
+                               
+                            </tr>
+
+                            <tr>
+                                <td>Eye Cleaning</td>
+                                <td>10</td>
+                                <td>100.00</td>
+                                <td><input type="number" name="quantity10"></td>
+                                <td><span id="total10"></span></td>
+                                <td><button onclick="addToCart(10)">Add to Cart</button></td>
+                                
+                            </tr>
+
+                            <tr>
+                                <td>Ear Cleaning</td>
+                                <td>11</td>
+                                <td>100.00</td>
+                                <td><input type="number" name="quantity11"></td>
+                                <td><span id="total11"></span></td>
+                                <td><button onclick="addToCart(11)">Add to Cart</button></td>
+                                
+                            </tr>
+
+                            <tr>
+                                <td>Teeth Brushing</td>
+                                <td>12</td>
+                                <td>150.00</td>
+                                <td><input type="number" name="quantity12"></td>
+                                <td><span id="total12"></span></td>
+                                <td><button onclick="addToCart(12)">Add to Cart</button></td>
+                                
+                            </tr>
+
+                            <tr>
+                                <td>Nail Clipping</td>
+                                <td>13</td>
+                                <td>100.00</td>
+                                <td><input type="number" name="quantity13"></td>
+                                <td><span id="total13"></span></td>
+                                <td><button onclick="addToCart(13)">Add to Cart</button></td>
+                                
+                            </tr>
+
+                            <tr>
+                                <td>Bath & Dry</td>
+                                <td>14</td>
+                                <td>250.00</td>
+                                <td><input type="number" name="quantity14"></td>
+                                <td><span id="total14"></span></td>
+                                <td><button onclick="addToCart(14)">Add to Cart</button></td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </section>
+                <section id="orders">
+                    <div id="myCart">
+                        <h2>My Cart</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Total Price</th>
+                                    <th><button onclick="deleteItem()">Delete</button></th>
+                                </tr>
+                            </thead>
+                            <tbody id="cartItems">
+                            
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    
+                                    <td colspan="2"><strong>Total:</strong></td>
+                                    <td colspan="2"><strong></strong><span id="cartTotal"></span></strong></td>
+                                    
+                                </tr>
+                            </tfoot>
+                            
+                        </table>
+                        <tr colspan="5"><input type="date" id="reservationDate" required></tr>
+                        <button onclick="checkout()">Checkout</button>
+                        </div>
+                    
+                </section>
+            </div>
+        </div>
+
+
+    </div>
+
+    <section id="orderDetails">
+
+<form id="checkoutForm" action="checkouts.php" method="POST">
+    <input type="hidden" name="total" id="total" value="">
+</form>
+
+<button onclick="document.getElementById('total').value = parseFloat($('#cartTotal').text()); document.getElementById('checkoutForm').submit();">Checkout</button>
+
+
+    </section>
+
+
+    <script>
+        $(document).ready(function () {
+            // Add smooth scrolling to all links in navbar + footer link
+            $(".navbar a, footer a[href='#myPage']").on('click', function (event) {
+                // Make sure this.hash has a value before overriding default behavior
+                if (this.hash !== "") {
+                    // Prevent default anchor click behavior
+                    event.preventDefault();
+
+                    // Store hash
+                    var hash = this.hash;
+
+                    // Using jQuery's animate() method to add smooth page scroll
+                    // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 900, function () {
+
+                        // Add hash (#) to URL when done scrolling (default click behavior)
+                        window.location.hash = hash;
+                    });
+                } // End if
+            });
+
+            $(window).scroll(function () {
+                $(".slideanim").each(function () {
+                    var pos = $(this).offset().top;
+
+                    var winTop = $(window).scrollTop();
+                    if (pos < winTop + 600) {
+                        $(this).addClass("slide");
+                    }
+                });
+            });
+        })
+
+        function addToCart(productId) {
+        var quantity = parseInt(document.getElementsByName("quantity" + productId)[0].value);
+        var price = parseFloat(document.getElementsByTagName("tr")[productId].getElementsByTagName("td")[2].innerHTML);
+        var total = quantity * price;
+        document.getElementById("total" + productId).innerHTML = total.toFixed(2);
+
+        // Add logic here to manage the cart and calculate the total price of all items
+        var productName = document.getElementsByTagName("tr")[productId].getElementsByTagName("td")[0].innerHTML;
+        var reservationDate = document.getElementById("reservationDate").value;
+        var cartItemId = "cartItem_" + productId;
+        var cartItem = "<tr id='" + cartItemId + "'><td>" + productName + "</td><td>" + quantity + "</td><td>" + total.toFixed(2) + "</td><td><button onclick='deleteItem(\"" + cartItemId + "\")'>Delete</button></td></tr>";
+        $("#cartItems").append(cartItem);
+
+        updateCartTotal();
+    }
+
+    function deleteItem(cartItemId) {
+        $("#" + cartItemId).remove();
+        updateCartTotal();
+    }
+
+    function updateCartTotal() {
+        var total = 0;
+        $("#cartItems tr").each(function () {
+            total += parseFloat($(this).find("td:eq(2)").text());
+        });
+        $("#cartTotal").text(total.toFixed(2));
+
+        if ($("#cartItems tr").length > 0) {
+            $("#myCart").show();
+        } else {
+            $("#myCart").hide();
+        }
+    }
+    function checkout() {
+    var reservationDate = document.getElementById("reservationDate").value;
+    var total = parseFloat($("#cartTotal").text());
+
+    // Generate a random order ID (for demonstration purposes)
+    var orderId = "ORD" + Math.floor(Math.random() * 1000000);
+
+    // Get user information (assuming you have access to these variables)
+    var userId = "12345"; // Example user ID
+    var userName = "John Doe"; // Example user name
+    var userAddress = "123 Main St, City, Country"; // Example user address
+
+    var orderDetails = "<h2>Order Details</h2>" +
+        "<p><strong>Order ID:</strong> " + orderId + "</p>" +
+        "<p><strong>User ID:</strong> " + userId + "</p>" +
+        "<p><strong>User Name:</strong> " + userName + "</p>" +
+        "<p><strong>User Address:</strong> " + userAddress + "</p>" +
+        "<p><strong>Reservation Date:</strong> " + reservationDate + "</p>" +
+        "<p><strong>Total Price:</strong> $" + total.toFixed(2) + "</p>";
+
+    $("#orderDetails").html(orderDetails);
+}
+
+    </script>
+   
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</body>
+
+</html>
