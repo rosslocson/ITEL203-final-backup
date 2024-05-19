@@ -27,7 +27,7 @@ if ($result->num_rows > 0) {
 
 
 // Retrieve total income from the database
-$sql = "SELECT total_price FROM order_details";
+$sql = "SELECT total_price FROM completed_orders";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -56,7 +56,17 @@ if ($result->num_rows > 0) {
 }
 
        
-        
+
+// SQL query to fetch all completed orders
+$sql = "SELECT id, order_id, user_id, reservation_date, total_price, deleted_at FROM completed_orders";
+$result = $conn->query($sql);
+
+$completed_orders = [];
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $completed_orders[] = $row;
+    }
+}
 // Close database connection
 $conn->close();
 ?>

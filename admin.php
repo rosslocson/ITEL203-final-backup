@@ -129,26 +129,65 @@
 
         <section id="orders">
             <h1>Orders</h1>
-          
-<div class="container table-container">
-<h2>Orders</h2>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Order Number</th>
-            <th>User ID</th>
-            <th>Customer Name</th>
-            <th>Order Date</th>
-            <th>Total Amount</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php include 'orders.php' ?>
-    </tbody>
-</table>
-</div>
+
+            <div class="container table-container">
+                <h2>Orders</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Order Number</th>
+                            <th>User ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Date</th>
+                            <th>Total Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php include 'orders.php' ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+
+
+        <section>
+            <div class="container">
+                <h1 class="text-center">Completed Orders</h1>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                        
+                            <th>User ID</th>
+                            <th>Reservation Date</th>
+                            <th>Total Price</th>
+                            <th>Deleted At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($completed_orders as $order): ?>
+                            <tr>
+                                <td><?php echo $order['id']; ?></td>
+                             
+                                <td><?php echo $order['user_id']; ?></td>
+                                <td><?php echo $order['reservation_date']; ?></td>
+                                <td>$<?php echo number_format($order['total_price'], 2); ?></td>
+                                <td><?php echo $order['deleted_at']; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <?php if (empty($completed_orders)): ?>
+                            <tr>
+                                <td colspan="6" class="text-center">No completed orders found.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+
+                <h2>Total Sales: <?php echo $overall_total; ?></h2>
+            </div>
         </section>
 </body>
 
