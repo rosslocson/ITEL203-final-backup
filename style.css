@@ -1,12 +1,12 @@
 body {
-   
-    font: 400 15px Lato, sans-serif;
+
+    font-family: 'Lato', sans-serif;
     line-height: 1.8;
     color: #818181;
     margin: 0;
     padding: 0;
-   
-    
+
+
 }
 
 h1 {
@@ -35,6 +35,59 @@ h4 {
 }
 
 h3 {
+    color: black;
+}
+
+/* Login Section */
+/* Form Container */
+.form-container {
+    background-color: #FFDD83;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    margin: 0 auto;
+    margin-top: 30px;
+   
+}
+#login {
+    margin: 0 auto;
+    padding: 70px;
+    background-color: white;
+    text-align: center;
+    width: 70%;
+}
+
+#login img {
+    width: 200px;
+
+}
+
+#login .form-group {
+    max-width: 300px;
+    margin: 0 auto;
+   
+
+}
+
+#login .form-control {
+    border-radius: 20;
+    box-shadow: none;
+   
+}
+
+#login button {
+    background-color: #00235B;
+    color: #fff;
+    border: none;
+    width: 30%;
+    border-radius: 20;
+    margin-top: 20px;
+    font-size: 17px;
+}
+
+#login button:hover {
+    background-color: #FFDD83;
     color: black;
 }
 
@@ -171,7 +224,7 @@ h3 {
 
 .navbar {
     margin-bottom: 0;
-    width: 100%;
+
     background-color: #00235B;
     z-index: 9999;
     border: 0;
@@ -363,21 +416,25 @@ footer .glyphicon {
 footer {
     background-color: #00235B;
     color: white;
-    padding: 20px 0;
+   width: 100%;
     text-align: center;
 }
 
 footer a {
     color: white;
-    margin: 0 10px;
-    font-size: 24px;
+  
+    margin: 0 5px;
+    font-size: 18px;
 }
 
 footer a:hover {
     color: lightgray;
 }
 
-#footernames h6 {
+h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
     color: white;
     text-align: center;
 }
@@ -452,22 +509,41 @@ tr:nth-child(odd) {
     height: 120%;
     width: 25%;
     font-size: large;
-    
+
 }
 
 #about {
     background-image: url('paws.png');
     background-size: cover;
-    
+
 }
 
 #about h1 {
     color: #303030;
 }
 
-#buttons {
-    height: auto;
-    width: auto;
+/* Profile Button */
+.navbar-right button {
+    background-color: #00235B;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+}
+
+
+.navbar-right .collapse ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar-right .collapse ul li {
+    margin: 5px 0;
+}
+
+.navbar-right .collapse ul li a {
+    color: #333;
+    text-decoration: none;
 }
 
 #avail button {
@@ -484,6 +560,7 @@ tr:nth-child(odd) {
     color: white;
     margin-bottom: 1%;
 }
+
 #browsebtn {
     height: 110%;
     width: 18%;
@@ -543,7 +620,7 @@ tr:nth-child(odd) {
 
 .text-animation {
     font-size: 24px;
-    
+
     opacity: 50;
     transform: translateX(-100%);
     animation: slideIn 10s forwards;
@@ -601,8 +678,10 @@ tr:nth-child(odd) {
     width: 5%;
     height: auto;
 }
+
 input[type="number"] {
-    width: 60px; /* Set the desired width here */
+    width: 60px;
+    /* Set the desired width here */
 }
 
 .order-details-container {
@@ -614,7 +693,7 @@ input[type="number"] {
     color: #333;
     text-align: left;
     margin-bottom: 20px;
-    
+
 }
 
 .order-details-title {

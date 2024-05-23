@@ -159,22 +159,22 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                        
-                            <th>User ID</th>
+                            <th>Order ID</th>
+                            <th>Customer ID</th>
+                            <th>Customer Name</th>
                             <th>Reservation Date</th>
                             <th>Total Price</th>
-                            <th>Deleted At</th>
+                            <th>Complete At</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($completed_orders as $order): ?>
                             <tr>
-                                <td><?php echo $order['id']; ?></td>
-                             
+                                <td><?php echo $order['order_id']; ?></td>
                                 <td><?php echo $order['user_id']; ?></td>
+                                <td><?php echo $order['name']; ?></td>
                                 <td><?php echo $order['reservation_date']; ?></td>
-                                <td>$<?php echo number_format($order['total_price'], 2); ?></td>
+                                <td>P<?php echo number_format($order['total_price'], 2); ?></td>
                                 <td><?php echo $order['deleted_at']; ?></td>
                             </tr>
                         <?php endforeach; ?>

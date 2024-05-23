@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         // Step 1: Fetch the order details to be deleted
-        $sql_fetch = "SELECT id, order_id, user_id, reservation_date, total_price FROM order_details WHERE id = ?";
+        $sql_fetch = "SELECT id, order_id, user_id, name, reservation_date, total_price FROM order_details WHERE id = ?";
         $stmt_fetch = $conn->prepare($sql_fetch);
         $stmt_fetch->bind_param("i", $id);
         $stmt_fetch->execute();
@@ -38,9 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<br>";
 
         // Step 2: Insert the order details into completed_orders
-        $sql_insert = "INSERT INTO completed_orders (id, order_id, user_id, reservation_date, total_price) VALUES (?, ?, ?, ?, ?)";
+        $sql_insert = "INSERT INTO completed_orders (id, order_id, user_id, name, reservation_date, total_price) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt_insert = $conn->prepare($sql_insert);
-        $stmt_insert->bind_param("isiss", $id, $order['order_id'], $order['user_id'], $order['reservation_date'], $order['total_price']);
+        $stmt_insert->bind_param("isisss", $id, $order['order_id'], $order['user_id'],  $order['name'], $order['reservation_date'], $order['total_price']);
         $stmt_insert->execute();
 
         // Step 3: Delete related records from order_items

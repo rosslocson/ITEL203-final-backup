@@ -58,7 +58,7 @@ if ($result->num_rows > 0) {
        
 
 // SQL query to fetch all completed orders
-$sql = "SELECT id, order_id, user_id, reservation_date, total_price, deleted_at FROM completed_orders";
+$sql = "SELECT id, order_id, user_id, name, reservation_date, total_price, deleted_at FROM completed_orders";
 $result = $conn->query($sql);
 
 $completed_orders = [];

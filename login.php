@@ -28,7 +28,7 @@ if (isset($_POST['login'])) {
             if (password_verify($password, $stored_hash)) {
                 // Password is correct, store email in session and redirect
                 $_SESSION['email'] = $email;
-                header("location: profile.php");
+                header("location: home.html");
             } else {
                 echo "User email or password is not matched";
             }
@@ -37,5 +37,7 @@ if (isset($_POST['login'])) {
         }
     }
 }
+
+
 
 ?>
