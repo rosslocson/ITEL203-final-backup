@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 body {
 
     font-family: 'Lato', sans-serif;
@@ -459,16 +460,18 @@ h6 {
 
 #avail table {
     margin: 0 auto;
-    width: 100%;
+    
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-collapse: collapse;
     align-self: center;
+   
 }
 
 table {
-    width: 95%;
+    width: 50%;
     border-collapse: collapse;
     align-self: center;
+   
 }
 
 th,
@@ -568,55 +571,6 @@ tr:nth-child(odd) {
     color: white;
 }
 
-/* Profile Section Styles */
-#profile {
-    background-color: #f9f9f9;
-    padding: 20px;
-}
-
-#profile h1 {
-    color: #303030;
-    font-size: 36px;
-}
-
-#profile h2 {
-    color: #303030;
-    font-size: 24px;
-}
-
-#profile ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-#profile ul li {
-    margin-bottom: 10px;
-}
-
-#profile ul li::before {
-    content: "\2022";
-    /* Bullet character */
-    color: #303030;
-    display: inline-block;
-    width: 1em;
-    margin-left: -1em;
-}
-
-#profile ul li span {
-    font-weight: bold;
-    color: #333;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    #profile h1 {
-        font-size: 24px;
-    }
-
-    #profile h2 {
-        font-size: 20px;
-    }
-}
 
 .text-animation {
     font-size: 24px;
@@ -639,20 +593,22 @@ tr:nth-child(odd) {
 }
 
 .profile-container {
-    background-image: url('paws3.png');
+    background-image: url('proff.png');
     background-size: cover;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 130%;
-    margin-left: 10%;
-    margin-bottom: 5%;
+    border-radius: 30px;
+    width: 80%;
+    padding-bottom: 20px;
+    margin-left: 40%;
+    
+  
 }
 
 .profile-container h2 {
     font-size: 24px;
     color: black;
     margin-bottom: 15px;
-    margin-left: 5%;
+    margin-left: 3%;
 
 }
 
@@ -666,6 +622,7 @@ tr:nth-child(odd) {
     color: #333;
     margin-bottom: 5px;
     margin-left: 5%;
+    
 }
 
 .profile-container li strong {
@@ -699,4 +656,15 @@ input[type="number"] {
 .order-details-title {
     color: #333;
     text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    text-align: left;
+}
+
+
+#orders {
+    
+    margin-bottom: 20%;
 }

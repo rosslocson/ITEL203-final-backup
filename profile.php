@@ -61,10 +61,17 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link href="style.css" rel="stylesheet" type="text/css">
-
+    <style>
+        
+.orderss {
+    width: 80%;
+    background-color: #FFDD83;
+}
+    </style>
 
 </head>
 
@@ -83,75 +90,85 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
 
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
-                   
-                    <li><a href="home.html">HOME  <span class="glyphicon glyphicon-home"></span></a></li>
-                    <li><a href="profile.php#avail">AVAIL PACKAGES <span class="glyphicon glyphicon-plus-sign"></span></a></li>
-               
-                    <li><a href="profile.php#myCart">MY CART  <span class="glyphicon glyphicon-shopping-cart"></span></a></li>
-                    <li><a href="profile.php#myorders">MY ORDERS <span class="glyphicon glyphicon-list-alt"></span></a></li>
+
+                    <li><a href="home.html">HOME <span class="glyphicon glyphicon-home"></span></a></li>
+                    <li><a href="profile.php#avail">AVAIL PACKAGES <span
+                                class="glyphicon glyphicon-plus-sign"></span></a></li>
+
+                    <li><a href="profile.php#myCart">MY CART <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                    </li>
+                    <li><a href="profile.php#myorders">MY ORDERS <span class="glyphicon glyphicon-list-alt"></span></a>
+                    </li>
                     <li><a href="logout.php">LOG OUT</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-<!-- Container (Profile Section) -->
-<section id="profile" class="container-fluid">
-    <div class="row">
-        <div class="col-sm-8">
-            <br><br>
-            <div>
-                <h1>Welcome, <?php echo htmlspecialchars($name); ?>!</h1>
-            </div>
-            <br>
-            <div class="profile-container">
-                <h2>USER PROFILE</h2>
-                <ul>
-                    <li>Name: <?php echo htmlspecialchars($name); ?></li>
-                    <li>Username: <?php echo htmlspecialchars($username); ?></li>
-                    <li>Age: <?php echo htmlspecialchars($age); ?></li>
-                    <li>Address: <?php echo htmlspecialchars($address); ?></li>
-                    <li>Email Address: <?php echo htmlspecialchars($email); ?></li>
-                    <li>Phone Number: <?php echo htmlspecialchars($phone_number); ?></li>
-                    <li>Gender: <?php echo htmlspecialchars($gender); ?></li>
-                </ul>
+
+    <!-- Container (Profile Section) -->
+
+    <section id="profile" class="container-fluid">
+        <div class="row">
+            <div class="col-sm-8">
                 <br>
-                <button id="editProfileBtn" onclick="toggleEditForm()">Edit Profile</button>
-                <br><br>
-                <form id="editProfileForm" action="update_profile.php" method="POST" style="display:none;">
+                <br>
+                <div class="profile-container">
+                    <img height="200px" width="400px" src="userprofile.png" alt="user profile">
                     <ul>
-                        <li>Name: <input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>"></li>
-                        <li>Username: <input type="text" name="username" value="<?php echo htmlspecialchars($username); ?>"></li>
-                        <li>Age: <input type="number" name="age" value="<?php echo htmlspecialchars($age); ?>"></li>
-                        <li>Address: <input type="text" name="address" value="<?php echo htmlspecialchars($address); ?>"></li>
-                        <li>Email Address: <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>"></li>
-                        <li>Phone Number: <input type="tel" name="phone_number" value="<?php echo htmlspecialchars($phone_number); ?>"></li>
-                        <li>Gender:
-                            <select name="gender">
-                                <option value="Male" <?php echo ($gender == 'Male') ? 'selected' : ''; ?>>Male</option>
-                                <option value="Female" <?php echo ($gender == 'Female') ? 'selected' : ''; ?>>Female</option>
-                                <option value="Other" <?php echo ($gender == 'Other') ? 'selected' : ''; ?>>Other</option>
-                            </select>
-                        </li>
+                        <li><strong>Name: </strong><?php echo htmlspecialchars($name); ?></li>
+                        <li><strong>Username: </strong><?php echo htmlspecialchars($username); ?></li>
+                        <li><strong>Age: </strong><?php echo htmlspecialchars($age); ?></li>
+                        <li><strong>Address: </strong><?php echo htmlspecialchars($address); ?></li>
+                        <li><strong>Email Address: </strong><?php echo htmlspecialchars($email); ?></li>
+                        <li><strong>Phone Number: </strong><?php echo htmlspecialchars($phone_number); ?></li>
+                        <li><strong>Gender: </strong><?php echo htmlspecialchars($gender); ?></li>
                     </ul>
+
+
+                    <form id="editProfileForm" action="update_profile.php" method="POST" style="display:none;">
+                        <ul>
+                            <li>Name: <input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>">
+                            </li>
+                            <li>Username: <input type="text" name="username"
+                                    value="<?php echo htmlspecialchars($username); ?>"></li>
+                            <li>Age: <input type="number" name="age" value="<?php echo htmlspecialchars($age); ?>"></li>
+                            <li>Address: <input type="text" name="address"
+                                    value="<?php echo htmlspecialchars($address); ?>"></li>
+                            <li>Email Address: <input type="email" name="email"
+                                    value="<?php echo htmlspecialchars($email); ?>"></li>
+                            <li>Phone Number: <input type="tel" name="phone_number"
+                                    value="<?php echo htmlspecialchars($phone_number); ?>"></li>
+                            <li>Gender:
+                                <select name="gender">
+                                    <option value="Male" <?php echo ($gender == 'Male') ? 'selected' : ''; ?>>Male
+                                    </option>
+                                    <option value="Female" <?php echo ($gender == 'Female') ? 'selected' : ''; ?>>Female
+                                    </option>
+                                    <option value="Other" <?php echo ($gender == 'Other') ? 'selected' : ''; ?>>Other
+                                    </option>
+                                </select>
+                            </li>
+                        </ul>
+                        <br>
+                        <button type="submit">Update Profile</button>
+                    </form>
                     <br>
-                    <button type="submit">Update Profile</button>
-                </form>
-                <br>
+                    <br>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<script>
-    function toggleEditForm() {
-        var form = document.getElementById('editProfileForm');
-        if (form.style.display === 'none' || form.style.display === '') {
-            form.style.display = 'block';
-        } else {
-            form.style.display = 'none';
+    <script>
+        function toggleEditForm() {
+            var form = document.getElementById('editProfileForm');
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
         }
-    }
-</script>
+    </script>
 
 
     <!-- Container (Profile Section) -->
@@ -161,13 +178,9 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
             <div>
                 <div>
                     <br>
-
-                    <img class="lrimage" src="paw.png" alt="Left Paw">
-                    <h1> Choose the package you want to avail. </h1>
-
                     <br>
                     <div>
-
+                        <img height="200px" width="400px" src="avail.png" alt="avail services">
                         <table>
                             <thead>
                                 <tr>
@@ -357,206 +370,218 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
 
                 </table>
                 <br>
-                <tr colspan="5"><input type="datetime-local" id="reservationDate" required></tr>
-                <button class="delete" onclick="checkout()">Confirm Order</button>
-            </div>
-            </div>
+                <tr colspan="5"><input type="datetime-local" id="reservationDate" required> </tr>
+                <button class="delete" onclick="checkout()">Confirm Reservation</button>
             </div>
         </section>
     </center>
+
+
+
+    <!-- Container (Orders Section) -->
+    <center>
+        <section id="myorders">
+            <div class="orderss">
+                <div class="col-sm-12">
+                    <img height="200px" width="400px" src="myorders.png" alt="my orders">
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+
+                        <img height="200px" width="400px" src="pending.png" alt="my orders">
+
+                        <ul>
+                            <?php if (count($pendingOrders) > 0): ?>
+                                <?php foreach ($pendingOrders as $order): ?>
+                                    <li>Order ID: <?php echo $order['id']; ?></li>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <li>No pending orders.</li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="orderss">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <img height="200px" width="400px" src="completed.png" alt="cart">
+                        <ul>
+                            <?php if (count($completedOrders) > 0): ?>
+                                <?php foreach ($completedOrders as $order): ?>
+                                    <li>Order ID: <?php echo $order['id']; ?></li>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <li>No completed orders.</li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </center>
+
     <center>
         <section id="orderDetails">
 
 
         </section>
     </center>
-
-
-    <!-- Container (Orders Section) -->
-    <secti id="myorders">
-        <h1>My Orders</h1>
-
-        <div class="row">
-            <div class="col-sm-12">
-                <h2>Your Orders</h2>
-                <h3>Pending Orders</h3>
-                <ul>
-                    <?php if (count($pendingOrders) > 0): ?>
-                        <?php foreach ($pendingOrders as $order): ?>
-                            <li>Order ID: <?php echo $order['id']; ?></li>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <li>No pending orders.</li>
-                    <?php endif; ?>
-                </ul>
-                <h3>Completed Orders</h3>
-                <ul>
-                    <?php if (count($completedOrders) > 0): ?>
-                        <?php foreach ($completedOrders as $order): ?>
-                            <li>Order ID: <?php echo $order['id']; ?></li>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <li>No completed orders.</li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-        </div>
-        </section>
+    <script>
 
 
 
-        <script>
+        $(document).ready(function () {
+            // Add smooth scrolling to all links in navbar + footer link
+            $(".navbar a, footer a[href='#myPage']").on('click', function (event) {
+                // Make sure this.hash has a value before overriding default behavior
+                if (this.hash !== "") {
+                    // Prevent default anchor click behavior
+                    event.preventDefault();
 
+                    // Store hash
+                    var hash = this.hash;
 
+                    // Using jQuery's animate() method to add smooth page scroll
+                    // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 900, function () {
 
-            $(document).ready(function () {
-                // Add smooth scrolling to all links in navbar + footer link
-                $(".navbar a, footer a[href='#myPage']").on('click', function (event) {
-                    // Make sure this.hash has a value before overriding default behavior
-                    if (this.hash !== "") {
-                        // Prevent default anchor click behavior
-                        event.preventDefault();
-
-                        // Store hash
-                        var hash = this.hash;
-
-                        // Using jQuery's animate() method to add smooth page scroll
-                        // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
-                        $('html, body').animate({
-                            scrollTop: $(hash).offset().top
-                        }, 900, function () {
-
-                            // Add hash (#) to URL when done scrolling (default click behavior)
-                            window.location.hash = hash;
-                        });
-                    } // End if
-                });
-
-                $(window).scroll(function () {
-                    $(".slideanim").each(function () {
-                        var pos = $(this).offset().top;
-
-                        var winTop = $(window).scrollTop();
-                        if (pos < winTop + 600) {
-                            $(this).addClass("slide");
-                        }
+                        // Add hash (#) to URL when done scrolling (default click behavior)
+                        window.location.hash = hash;
                     });
-                });
-            })
+                } // End if
+            });
 
-            function addToCart(productId) {
-                var quantity = parseInt(document.getElementsByName("quantity" + productId)[0].value);
-                var price = parseFloat(document.getElementsByTagName("tr")[productId].getElementsByTagName("td")[2].innerHTML);
-                var total = quantity * price;
-                document.getElementById("total" + productId).innerHTML = total.toFixed(2);
+            $(window).scroll(function () {
+                $(".slideanim").each(function () {
+                    var pos = $(this).offset().top;
 
-                // Add logic here to manage the cart and calculate the total price of all items
-                var productName = document.getElementsByTagName("tr")[productId].getElementsByTagName("td")[0].innerHTML;
-                var reservationDate = document.getElementById("reservationDate").value;
-                var cartItemId = "cartItem_" + productId;
-                var cartItem = "<tr id='" + cartItemId + "'><td>" + productName + "</td><td>" + quantity + "</td><td>" + total.toFixed(2) + "</td><td><button class='delete' onclick='deleteItem(\"" + cartItemId + "\")'>Delete</button></td></tr>";
-                $("#cartItems").append(cartItem);
-
-                updateCartTotal();
-            }
-
-            function deleteItem(cartItemId) {
-                $("#" + cartItemId).remove();
-                updateCartTotal();
-            }
-
-            function updateCartTotal() {
-                var total = 0;
-                $("#cartItems tr").each(function () {
-                    total += parseFloat($(this).find("td:eq(2)").text());
-                });
-                $("#cartTotal").text(total.toFixed(2));
-
-                if ($("#cartItems tr").length > 0) {
-                    $("#myCart").show();
-                } else {
-                    $("#myCart").hide();
-                }
-            }
-            function checkout() {
-                var reservationDate = document.getElementById("reservationDate").value;
-                var total = parseFloat($("#cartTotal").text());
-
-                // Retrieve user details from the PHP variables
-                var userId = "<?php echo $user['id']; ?>";
-                var userName = "<?php echo $user['name']; ?>";
-                var userAddress = "<?php echo $user['address']; ?>";
-
-
-                // Generate a random order ID (for demonstration purposes)
-                var orderId = "ORD" + Math.floor(Math.random() * 1000000);
-
-                // Prepare the order details to be sent to the server
-                var orderItems = [];
-                $("#cartItems tr").each(function () {
-                    var productName = $(this).find("td:eq(0)").text();
-                    var quantity = parseInt($(this).find("td:eq(1)").text());
-                    var totalPrice = parseFloat($(this).find("td:eq(2)").text());
-                    orderItems.push({
-
-                        productName: productName,
-                        quantity: quantity,
-                        totalPrice: totalPrice
-                    });
-                });
-
-                var orderDetails = "<br><section>" + "<div class='order-details-container'>" +
-                    "<h2 class='order-details-title'>My Pet Care Reservation</h2>" +
-                    "<p style='color: red;'>Important Reminder: Please come on the Reserved Date. Thank you!</p>" +
-                    "<p><strong>Order ID:</strong> " + orderId + "</p>" +
-                    "<p><strong>Customer ID:</strong> " + userId + "</p>" +
-                    "<p><strong>Customer Name:</strong> " + userName + "</p>" +
-                    "<p><strong>Address:</strong> " + userAddress + "</p>" +
-                    "<p><strong>Reservation Date:</strong> " + reservationDate + "</p>" +
-                    "<p><strong>Total Amount to be Paid:</strong> P" + total.toFixed(2) + "</p>" +
-                    "<h3>Pet Care Service/s Booked:</h3>" + "<ul style='list-style-type: none;'>";
-                for (var i = 0; i < orderItems.length; i++) {
-                    orderDetails += "<li>" + orderItems[i].productName + " - Quantity: " + orderItems[i].quantity + " - Total Price: " + orderItems[i].totalPrice.toFixed(2) + "</li>";
-                }
-                orderDetails += "</ul>" + "</div>" + "</section>";
-
-                $("#orderDetails").html(orderDetails);
-
-
-
-                // Send the order details to the server using AJAX
-                $.ajax({
-                    url: "save_order_details.php",
-                    method: "POST",
-                    data: {
-                        orderId: orderId,
-                        userId: userId,
-                        userName: userName,
-                        userAddress: userAddress,
-                        reservationDate: reservationDate,
-                        total: total,
-                        orderItems: orderItems
-                    },
-                    success: function (response) {
-                        // Handle the server's response
-                        console.log(response);
-                        // For example, you can show a success message to the user
-                        alert("Order placed successfully!");
-                        // Clear the cart and update the UI
-                        $("#cartItems").empty();
-                        $("#cartTotal").text("0.00");
-                    },
-                    error: function (xhr, status, error) {
-                        // Handle errors here
-                        console.error(xhr.responseText);
-                        alert("An error occurred while placing the order. Please try again.");
+                    var winTop = $(window).scrollTop();
+                    if (pos < winTop + 600) {
+                        $(this).addClass("slide");
                     }
                 });
-            }
+            });
+        })
 
-        </script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        function addToCart(productId) {
+            var quantity = parseInt(document.getElementsByName("quantity" + productId)[0].value);
+            var price = parseFloat(document.getElementsByTagName("tr")[productId].getElementsByTagName("td")[2].innerHTML);
+            var total = quantity * price;
+            document.getElementById("total" + productId).innerHTML = total.toFixed(2);
+
+            // Add logic here to manage the cart and calculate the total price of all items
+            var productName = document.getElementsByTagName("tr")[productId].getElementsByTagName("td")[0].innerHTML;
+            var reservationDate = document.getElementById("reservationDate").value;
+            var cartItemId = "cartItem_" + productId;
+            var cartItem = "<tr id='" + cartItemId + "'><td>" + productName + "</td><td>" + quantity + "</td><td>" + total.toFixed(2) + "</td><td><button class='delete' onclick='deleteItem(\"" + cartItemId + "\")'>Delete</button></td></tr>";
+            $("#cartItems").append(cartItem);
+
+            updateCartTotal();
+        }
+
+        function deleteItem(cartItemId) {
+            $("#" + cartItemId).remove();
+            updateCartTotal();
+        }
+
+        function updateCartTotal() {
+            var total = 0;
+            $("#cartItems tr").each(function () {
+                total += parseFloat($(this).find("td:eq(2)").text());
+            });
+            $("#cartTotal").text(total.toFixed(2));
+
+            if ($("#cartItems tr").length > 0) {
+                $("#myCart").show();
+            } else {
+                $("#myCart").hide();
+            }
+        }
+        function checkout() {
+            var reservationDate = document.getElementById("reservationDate").value;
+            var total = parseFloat($("#cartTotal").text());
+
+            // Retrieve user details from the PHP variables
+            var userId = "<?php echo $user['id']; ?>";
+            var userName = "<?php echo $user['name']; ?>";
+            var userAddress = "<?php echo $user['address']; ?>";
+
+
+            // Generate a random order ID (for demonstration purposes)
+            var orderId = "ORD" + Math.floor(Math.random() * 1000000);
+
+            // Prepare the order details to be sent to the server
+            var orderItems = [];
+            $("#cartItems tr").each(function () {
+                var productName = $(this).find("td:eq(0)").text();
+                var quantity = parseInt($(this).find("td:eq(1)").text());
+                var totalPrice = parseFloat($(this).find("td:eq(2)").text());
+                orderItems.push({
+
+                    productName: productName,
+                    quantity: quantity,
+                    totalPrice: totalPrice
+                });
+            });
+
+            var orderDetails = "<br><section>" + "<div class='order-details-container'>" +
+                "<h2 class='order-details-title'>My Pet Care Reservation</h2>" +
+                "<p style='color: red;'>Important Reminder: Please come on the Reserved Date. Thank you!</p>" +
+                "<p><strong>Order ID:</strong> " + orderId + "</p>" +
+                "<p><strong>Customer ID:</strong> " + userId + "</p>" +
+                "<p><strong>Customer Name:</strong> " + userName + "</p>" +
+                "<p><strong>Address:</strong> " + userAddress + "</p>" +
+                "<p><strong>Reservation Date:</strong> " + reservationDate + "</p>" +
+                "<p><strong>Total Amount to be Paid:</strong> P" + total.toFixed(2) + "</p>" +
+                "<h3>Pet Care Service/s Booked:</h3>" + "<ul style='list-style-type: none;'>";
+            for (var i = 0; i < orderItems.length; i++) {
+                orderDetails += "<li>" + orderItems[i].productName + " - Quantity: " + orderItems[i].quantity + " - Total Price: " + orderItems[i].totalPrice.toFixed(2) + "</li>";
+            }
+            orderDetails += "</ul>" + "</div>" + "</section>";
+
+            $("#orderDetails").html(orderDetails);
+
+
+
+            // Send the order details to the server using AJAX
+            $.ajax({
+                url: "save_order_details.php",
+                method: "POST",
+                data: {
+                    orderId: orderId,
+                    userId: userId,
+                    userName: userName,
+                    userAddress: userAddress,
+                    reservationDate: reservationDate,
+                    total: total,
+                    orderItems: orderItems
+                },
+                success: function (response) {
+                    // Handle the server's response
+                    console.log(response);
+                    // For example, you can show a success message to the user
+                    alert("Order placed successfully!");
+                    // Clear the cart and update the UI
+                    $("#cartItems").empty();
+                    $("#cartTotal").text("0.00");
+                },
+                error: function (xhr, status, error) {
+                    // Handle errors here
+                    console.error(xhr.responseText);
+                    alert("An error occurred while placing the order. Please try again.");
+                }
+            });
+        }
+
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>
