@@ -33,7 +33,7 @@ if (isset($_POST['register'])) {
         // check if user data inserted successfully.
         if ($result) {
             echo "<br/><br/>User Registered successfully.<br>";
-            echo '<a href="login.html">Click here to log in.</a>';
+            echo '<a href="index.html">Click here to log in.</a>';
 
         } else {
             echo "Registration error. Please try again." . mysqli_error($mysqli);

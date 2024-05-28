@@ -16,7 +16,7 @@ $message = $_POST['comments'];
 $sql = "INSERT INTO messages (name, email, message) VALUES ('$name', '$email', '$message')";
 if ($mysqli->query($sql) === TRUE) {
     echo "Message sent successfully.";
-    echo "<br><br><a href='index.html'>Back to Home Page</a>";
+    echo "<br><br><a href='home.html'>Back to Home Page</a>";
 } else {
     echo "Error: " . $sql . "<br>" . $mysqli->error;
 }

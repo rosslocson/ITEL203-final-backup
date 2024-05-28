@@ -66,11 +66,21 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link href="style.css" rel="stylesheet" type="text/css">
     <style>
-        
-.orderss {
-    width: 80%;
-    background-color: #FFDD83;
-}
+        .orderss {
+            width: 80%;
+            background-color: #FFDD83;
+        }
+
+
+        #editbutton, #updatebutton {
+            height: auto;
+            width: auto;
+            background-color: #00235B;
+            color: white;
+            border-radius: 5%;
+            margin-left: 9%;
+            margin-top: 2%;
+        }
     </style>
 
 </head>
@@ -99,15 +109,14 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                     </li>
                     <li><a href="profile.php#myorders">MY ORDERS <span class="glyphicon glyphicon-list-alt"></span></a>
                     </li>
+                    <li><a href="profile.php#contact">MESSAGE US <span class="glyphicon glyphicon-envelope"></span></a></li>
                     <li><a href="logout.php">LOG OUT</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-
     <!-- Container (Profile Section) -->
-
-    <section id="profile" class="container-fluid">
+    <section id="profile" class="container-fluid bg-grey ">
         <div class="row">
             <div class="col-sm-8">
                 <br>
@@ -123,22 +132,25 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                         <li><strong>Phone Number: </strong><?php echo htmlspecialchars($phone_number); ?></li>
                         <li><strong>Gender: </strong><?php echo htmlspecialchars($gender); ?></li>
                     </ul>
-
-
+                    
+                    <button id="editbutton" onclick="toggleEditForm()">Edit Profile</button>
+              
                     <form id="editProfileForm" action="update_profile.php" method="POST" style="display:none;">
+                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
                         <ul>
-                            <li>Name: <input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>">
+                        <br>
+                            <li><strong>Name: </strong><input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>">
                             </li>
-                            <li>Username: <input type="text" name="username"
+                            <li><strong>Username: </strong><input type="text" name="username"
                                     value="<?php echo htmlspecialchars($username); ?>"></li>
-                            <li>Age: <input type="number" name="age" value="<?php echo htmlspecialchars($age); ?>"></li>
-                            <li>Address: <input type="text" name="address"
+                            <li><strong>Age: </strong><input type="number" name="age" value="<?php echo htmlspecialchars($age); ?>"></li>
+                            <li><strong>Address: </strong><input type="text" name="address"
                                     value="<?php echo htmlspecialchars($address); ?>"></li>
-                            <li>Email Address: <input type="email" name="email"
+                            <li><strong>Email Address: </strong><input type="email" name="email"
                                     value="<?php echo htmlspecialchars($email); ?>"></li>
-                            <li>Phone Number: <input type="tel" name="phone_number"
+                            <li><strong>Phone Number: </strong><input type="tel" name="phone_number"
                                     value="<?php echo htmlspecialchars($phone_number); ?>"></li>
-                            <li>Gender:
+                            <li><strong>Gender:</strong>
                                 <select name="gender">
                                     <option value="Male" <?php echo ($gender == 'Male') ? 'selected' : ''; ?>>Male
                                     </option>
@@ -150,7 +162,7 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                             </li>
                         </ul>
                         <br>
-                        <button type="submit">Update Profile</button>
+                        <button id="updatebutton" class="btn btn-default" type="submit">Update Profile</button>
                     </form>
                     <br>
                     <br>
@@ -159,16 +171,6 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
         </div>
     </section>
 
-    <script>
-        function toggleEditForm() {
-            var form = document.getElementById('editProfileForm');
-            if (form.style.display === 'none' || form.style.display === '') {
-                form.style.display = 'block';
-            } else {
-                form.style.display = 'none';
-            }
-        }
-    </script>
 
 
     <!-- Container (Profile Section) -->
@@ -350,7 +352,7 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                 <table>
                     <thead>
                         <tr>
-                            <th>PRODUCT NAME</th>
+                            <th>PET SERVICE</th>
                             <th>QUANTITY</th>
                             <th>TOTAL PRICE</th>
                             <th>REMOVE FROM CART</button></th>
@@ -376,11 +378,18 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
         </section>
     </center>
 
+    <center>
+        <section id="orderDetails">
 
+
+        </section>
+
+        <br>
+    </center>
 
     <!-- Container (Orders Section) -->
     <center>
-        <section id="myorders">
+        <section id="myorders" class="container-fluid">
             <div class="orderss">
                 <div class="col-sm-12">
                     <img height="200px" width="400px" src="myorders.png" alt="my orders">
@@ -388,17 +397,37 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                 <div class="col-sm-6">
                     <div class="row">
 
-                        <img height="200px" width="400px" src="pending.png" alt="my orders">
+                        <img height="150px" width="300px" src="pending.png" alt="pending orders">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                 
+                                    <th>Total Price</th>
+                                    <th>Reservation Date</th>
 
-                        <ul>
-                            <?php if (count($pendingOrders) > 0): ?>
-                                <?php foreach ($pendingOrders as $order): ?>
-                                    <li>Order ID: <?php echo $order['id']; ?></li>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <li>No pending orders.</li>
-                            <?php endif; ?>
-                        </ul>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (count($pendingOrders) > 0): ?>
+                                    <?php foreach ($pendingOrders as $order): ?>
+                                        <tr>
+                                            <td><?php echo $order['order_id']; ?></td>
+                                            
+                                            <td>₱<?php echo number_format($order['total_price'], 2); ?></td>
+                                            <td><?php echo $order['reservation_date']; ?></td>
+
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="4">No pending appointments/orders.</td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
             </div>
@@ -406,16 +435,35 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
             <div class="orderss">
                 <div class="col-sm-6">
                     <div class="row">
-                        <img height="200px" width="400px" src="completed.png" alt="cart">
-                        <ul>
-                            <?php if (count($completedOrders) > 0): ?>
-                                <?php foreach ($completedOrders as $order): ?>
-                                    <li>Order ID: <?php echo $order['id']; ?></li>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <li>No completed orders.</li>
-                            <?php endif; ?>
-                        </ul>
+                        <img height="150px" width="300px" src="completed.png" alt="completed orders">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Total Price</th>
+                                    <th>Reservation Date</th>
+                                 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (count($completedOrders) > 0): ?>
+                                    <?php foreach ($completedOrders as $order): ?>
+                                        <tr>
+                                            <td><?php echo $order['order_id']; ?></td>
+                                            <td>₱<?php echo number_format($order['total_price'], 2); ?></td>
+                                            <td><?php echo $order['reservation_date']; ?></td>
+                                           
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="4">No completed orders/appointments.</td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+
+
                     </div>
                 </div>
             </div>
@@ -424,12 +472,48 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
 
     </center>
 
-    <center>
-        <section id="orderDetails">
+  <!-- Container (Contact Section) -->
+  <section id="contact">
+        <div class="container-fluid bg-grey">
+            <br>
+            <h2 class="text-center">CONTACT</h2>
+            <div class="row">
+                <div class="col-sm-5">
+                    <p>Contact us and we'll get back to you within 24 hours.</p>
+                    <p><span class="glyphicon glyphicon-map-marker"></span> San Pablo City, Laguna</p>
+                    <p><span class="glyphicon glyphicon-phone"></span> +639123456789</p>
+                    <p><span class="glyphicon glyphicon-envelope"></span> pawsandplay@gmail.com</p>
+                </div>
+                <div class="col-sm-7 slideanim">
+                    <form action="contact.php" method="post">
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label for="name">Name:</label>
+                                <input class="form-control" id="name" name="name" placeholder="Name" type="text"
+                                    required>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="email">Email:</label>
+                                <input class="form-control" id="email" name="email" placeholder="Email" type="email"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="comments">Message:</label>
+                            <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"
+                                required></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 form-group">
+                                <button class="btn btn-default pull-right" type="submit">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-
-        </section>
-    </center>
+    </section>
     <script>
 
 
@@ -530,16 +614,16 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                 });
             });
 
-            var orderDetails = "<br><section>" + "<div class='order-details-container'>" +
-                "<h2 class='order-details-title'>My Pet Care Reservation</h2>" +
-                "<p style='color: red;'>Important Reminder: Please come on the Reserved Date. Thank you!</p>" +
+            var orderDetails = "<section>" + "<div class='order-details-container'>" +
+                "<img src='receipt.png' alt='reservation receipt' style='height: 150px; width: 300px;'>" + // Add the image here
+                "<strong><p style='color: red;'>Important Reminder: Please come on your SCHEDULED APPOINTMENT. Thank you!</p></strong>" +
                 "<p><strong>Order ID:</strong> " + orderId + "</p>" +
                 "<p><strong>Customer ID:</strong> " + userId + "</p>" +
                 "<p><strong>Customer Name:</strong> " + userName + "</p>" +
                 "<p><strong>Address:</strong> " + userAddress + "</p>" +
                 "<p><strong>Reservation Date:</strong> " + reservationDate + "</p>" +
                 "<p><strong>Total Amount to be Paid:</strong> P" + total.toFixed(2) + "</p>" +
-                "<h3>Pet Care Service/s Booked:</h3>" + "<ul style='list-style-type: none;'>";
+                "<img src='booked.png' alt='booked services' style='height: 150px; width: 300px;'>";
             for (var i = 0; i < orderItems.length; i++) {
                 orderDetails += "<li>" + orderItems[i].productName + " - Quantity: " + orderItems[i].quantity + " - Total Price: " + orderItems[i].totalPrice.toFixed(2) + "</li>";
             }
@@ -567,6 +651,7 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                     console.log(response);
                     // For example, you can show a success message to the user
                     alert("Order placed successfully!");
+                    window.location.href = 'profile.php#orderDetails';
                     // Clear the cart and update the UI
                     $("#cartItems").empty();
                     $("#cartTotal").text("0.00");
@@ -580,6 +665,18 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
         }
 
     </script>
+
+    <script>
+        function toggleEditForm() {
+            var form = document.getElementById('editProfileForm');
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        }
+    </script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </body>
