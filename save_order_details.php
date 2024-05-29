@@ -21,6 +21,7 @@ if (!$user) {
     echo json_encode(array("success" => false, "message" => "User not found."));
     exit;
 }
+
 // Retrieve order details from the POST data
 $userId = $user['id'];
 $userName = $user['name'];
@@ -38,8 +39,9 @@ if (mysqli_query($mysqli, $query)) {
         $productName = $item['productName'];
         $quantity = $item['quantity'];
         $totalPrice = $item['totalPrice'];
-        $insertItemQuery = "INSERT INTO order_items (order_id, product_name, quantity, total_price, user_id) VALUES ('$orderId', '$productName', '$quantity', '$totalPrice', '$userId')";
-
+        $petName = $item['petName']; // Assuming this field exists in each order item
+        $petId = $item['petId']; // Assuming this field exists in each order item
+        $insertItemQuery = "INSERT INTO order_items (order_id, product_name, quantity, total_price, user_id, pet_name, pet_id) VALUES ('$orderId', '$productName', '$quantity', '$totalPrice', '$userId', '$petName', '$petId')";
 
         if (!mysqli_query($mysqli, $insertItemQuery)) {
             echo json_encode(array("success" => false, "message" => "Error inserting order item: " . mysqli_error($mysqli)));
@@ -50,4 +52,4 @@ if (mysqli_query($mysqli, $query)) {
 } else {
     echo json_encode(array("success" => false, "message" => "Error inserting order details: " . mysqli_error($mysqli)));
 }
-
+?>

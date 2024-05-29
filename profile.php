@@ -2,10 +2,11 @@
 session_start();
 
 include_once ("includedb.php");
+include 'config.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['email'])) {
-    header("location: login.html");
+    header("location: index.html");
     exit;
 }
 
@@ -13,7 +14,7 @@ if (!isset($_SESSION['email'])) {
 $email = $_SESSION['email'];
 
 // Query to fetch user data
-$result = mysqli_query($mysqli, "SELECT * FROM users WHERE email='$email'");
+$result = mysqli_query($mysqli, "SELECT * FROM pawsnplay.users WHERE email='$email'");
 $user = mysqli_fetch_assoc($result);
 
 // Check if user exists
@@ -36,13 +37,17 @@ $gender = $user['gender'];
 
 
 // Fetch pending orders
-$pendingOrdersResult = mysqli_query($mysqli, "SELECT * FROM order_details WHERE user_id={$user['id']}");
+$pendingOrdersResult = mysqli_query($mysqli, "SELECT * FROM pawsnplay.order_details WHERE user_id={$user['id']}");
 $pendingOrders = mysqli_fetch_all($pendingOrdersResult, MYSQLI_ASSOC);
 
 // Fetch completed orders
-$completedOrdersResult = mysqli_query($mysqli, "SELECT * FROM completed_orders WHERE user_id={$user['id']}");
+$completedOrdersResult = mysqli_query($mysqli, "SELECT * FROM pawsnplay.completed_orders WHERE user_id={$user['id']}");
 $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
 
+//Retrieving Owner's Pet/s
+// Fetch the user's pets
+$userPetsResult = mysqli_query($mysqli, "SELECT * FROM petcare.pets WHERE owner_id={$user['id']}");
+$userPets = mysqli_fetch_all($userPetsResult, MYSQLI_ASSOC);
 
 
 
@@ -72,7 +77,8 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
         }
 
 
-        #editbutton, #updatebutton {
+        #editbutton,
+        #updatebutton {
             height: auto;
             width: auto;
             background-color: #00235B;
@@ -109,7 +115,9 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                     </li>
                     <li><a href="profile.php#myorders">MY ORDERS <span class="glyphicon glyphicon-list-alt"></span></a>
                     </li>
-                    <li><a href="profile.php#contact">MESSAGE US <span class="glyphicon glyphicon-envelope"></span></a></li>
+                    <li><a href="profile.php#contact">MESSAGE US <span class="glyphicon glyphicon-envelope"></span></a>
+                    </li>
+                    <li><a href="mypets.html">MY PETS</a></li>
                     <li><a href="logout.php">LOG OUT</a></li>
                 </ul>
             </div>
@@ -132,18 +140,20 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                         <li><strong>Phone Number: </strong><?php echo htmlspecialchars($phone_number); ?></li>
                         <li><strong>Gender: </strong><?php echo htmlspecialchars($gender); ?></li>
                     </ul>
-                    
+
                     <button id="editbutton" onclick="toggleEditForm()">Edit Profile</button>
-              
+
                     <form id="editProfileForm" action="update_profile.php" method="POST" style="display:none;">
                         <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
                         <ul>
-                        <br>
-                            <li><strong>Name: </strong><input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>">
+                            <br>
+                            <li><strong>Name: </strong><input type="text" name="name"
+                                    value="<?php echo htmlspecialchars($name); ?>">
                             </li>
                             <li><strong>Username: </strong><input type="text" name="username"
                                     value="<?php echo htmlspecialchars($username); ?>"></li>
-                            <li><strong>Age: </strong><input type="number" name="age" value="<?php echo htmlspecialchars($age); ?>"></li>
+                            <li><strong>Age: </strong><input type="number" name="age"
+                                    value="<?php echo htmlspecialchars($age); ?>"></li>
                             <li><strong>Address: </strong><input type="text" name="address"
                                     value="<?php echo htmlspecialchars($address); ?>"></li>
                             <li><strong>Email Address: </strong><input type="email" name="email"
@@ -355,6 +365,7 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                             <th>PET SERVICE</th>
                             <th>QUANTITY</th>
                             <th>TOTAL PRICE</th>
+                            <th>CHOOSE PET</th>
                             <th>REMOVE FROM CART</button></th>
                         </tr>
                     </thead>
@@ -365,7 +376,9 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                         <tr>
 
                             <td colspan="2"><strong>Total:</strong></td>
-                            <td colspan="2"><strong></strong><span id="cartTotal"></span></strong></td>
+                            <td colspan="3"><strong></strong><span id="cartTotal"></span></strong></td>
+
+
 
                         </tr>
                     </tfoot>
@@ -402,7 +415,6 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                             <thead>
                                 <tr>
                                     <th>Order ID</th>
-                                 
                                     <th>Total Price</th>
                                     <th>Reservation Date</th>
 
@@ -414,7 +426,7 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                                     <?php foreach ($pendingOrders as $order): ?>
                                         <tr>
                                             <td><?php echo $order['order_id']; ?></td>
-                                            
+
                                             <td>₱<?php echo number_format($order['total_price'], 2); ?></td>
                                             <td><?php echo $order['reservation_date']; ?></td>
 
@@ -442,7 +454,7 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                                     <th>Order ID</th>
                                     <th>Total Price</th>
                                     <th>Reservation Date</th>
-                                 
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -452,7 +464,7 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                                             <td><?php echo $order['order_id']; ?></td>
                                             <td>₱<?php echo number_format($order['total_price'], 2); ?></td>
                                             <td><?php echo $order['reservation_date']; ?></td>
-                                           
+
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
@@ -472,8 +484,8 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
 
     </center>
 
-  <!-- Container (Contact Section) -->
-  <section id="contact">
+    <!-- Container (Contact Section) -->
+    <section id="contact">
         <div class="container-fluid bg-grey">
             <br>
             <h2 class="text-center">CONTACT</h2>
@@ -563,8 +575,15 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
             var productName = document.getElementsByTagName("tr")[productId].getElementsByTagName("td")[0].innerHTML;
             var reservationDate = document.getElementById("reservationDate").value;
             var cartItemId = "cartItem_" + productId;
-            var cartItem = "<tr id='" + cartItemId + "'><td>" + productName + "</td><td>" + quantity + "</td><td>" + total.toFixed(2) + "</td><td><button class='delete' onclick='deleteItem(\"" + cartItemId + "\")'>Delete</button></td></tr>";
+            var petSelect = "<select name='pet-owner1'>";
+            <?php foreach ($userPets as $pet): ?>
+                petSelect += "<option value='<?php echo $pet['id']; ?>'><?php echo $pet['name']; ?></option>";
+            <?php endforeach; ?>
+            petSelect += "</select>";
+
+            var cartItem = "<tr id='" + cartItemId + "'><td>" + productName + "</td><td>" + quantity + "</td><td>" + total.toFixed(2) + "</td><td>" + petSelect + "</td><td><button class='delete' onclick='deleteItem(\"" + cartItemId + "\")'>Delete</button></td></tr>";
             $("#cartItems").append(cartItem);
+
 
             updateCartTotal();
         }
@@ -596,23 +615,25 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
             var userName = "<?php echo $user['name']; ?>";
             var userAddress = "<?php echo $user['address']; ?>";
 
-
-            // Generate a random order ID (for demonstration purposes)
-            var orderId = "ORD" + Math.floor(Math.random() * 1000000);
-
             // Prepare the order details to be sent to the server
             var orderItems = [];
             $("#cartItems tr").each(function () {
                 var productName = $(this).find("td:eq(0)").text();
                 var quantity = parseInt($(this).find("td:eq(1)").text());
                 var totalPrice = parseFloat($(this).find("td:eq(2)").text());
+                var petName = $(this).find("select[name='pet-owner1'] option:selected").text(); // Get the selected pet name
+                var petId = $(this).find("select[name='pet-owner1']").val(); // Get the selected pet ID
                 orderItems.push({
-
                     productName: productName,
                     quantity: quantity,
-                    totalPrice: totalPrice
+                    totalPrice: totalPrice,
+                    petName: petName,
+                    petId: petId
                 });
             });
+
+            // Generate a random order ID (for demonstration purposes)
+            var orderId = "ORD" + Math.floor(Math.random() * 1000000);
 
             var orderDetails = "<section>" + "<div class='order-details-container'>" +
                 "<img src='receipt.png' alt='reservation receipt' style='height: 150px; width: 300px;'>" + // Add the image here
@@ -624,14 +645,14 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
                 "<p><strong>Reservation Date:</strong> " + reservationDate + "</p>" +
                 "<p><strong>Total Amount to be Paid:</strong> P" + total.toFixed(2) + "</p>" +
                 "<img src='booked.png' alt='booked services' style='height: 150px; width: 300px;'>";
+
+            orderDetails += "<ul>";
             for (var i = 0; i < orderItems.length; i++) {
-                orderDetails += "<li>" + orderItems[i].productName + " - Quantity: " + orderItems[i].quantity + " - Total Price: " + orderItems[i].totalPrice.toFixed(2) + "</li>";
+                orderDetails += "<li>" + orderItems[i].productName + " - Quantity: " + orderItems[i].quantity + " - Total Price: " + orderItems[i].totalPrice.toFixed(2) + " - Pet Name: " + orderItems[i].petName + "</li>";
             }
-            orderDetails += "</ul>" + "</div>" + "</section>";
+            orderDetails += "</ul></div></section>";
 
             $("#orderDetails").html(orderDetails);
-
-
 
             // Send the order details to the server using AJAX
             $.ajax({
@@ -665,7 +686,6 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
         }
 
     </script>
-
     <script>
         function toggleEditForm() {
             var form = document.getElementById('editProfileForm');
