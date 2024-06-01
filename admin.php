@@ -1,6 +1,9 @@
 <?php
 session_start();
 include_once ("includedb.php");
+include ("includedb_admin.php");
+include ("includedb_orders.php");
+include ("config.php");
 
 // Check if user is logged in
 if (!isset($_SESSION['email'])) {
@@ -12,7 +15,7 @@ if (!isset($_SESSION['email'])) {
 $email = $_SESSION['email'];
 
 // Query to fetch user data
-$result = mysqli_query($mysqli, "SELECT * FROM users WHERE email='$email'");
+$result = mysqli_query($mysqli, "SELECT * FROM pawsnplay_users.users WHERE email='$email'");
 $user = mysqli_fetch_assoc($result);
 
 // Check if user exists
@@ -32,11 +35,11 @@ $phone_number = $user['phone_number'];
 $gender = $user['gender'];
 
 // Fetch pending orders
-$pendingOrdersResult = mysqli_query($mysqli, "SELECT * FROM order_details WHERE user_id={$user['id']}");
+$pendingOrdersResult = mysqli_query($mysqli, "SELECT * FROM pawsnplay.order_details WHERE user_id={$user['id']}");
 $pendingOrders = mysqli_fetch_all($pendingOrdersResult, MYSQLI_ASSOC);
 
 // Fetch completed orders
-$completedOrdersResult = mysqli_query($mysqli, "SELECT * FROM completed_orders WHERE user_id={$user['id']}");
+$completedOrdersResult = mysqli_query($mysqli, "SELECT * FROM pawsnplay.completed_orders WHERE user_id={$user['id']}");
 $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
 
 // Initialize search query
@@ -47,10 +50,8 @@ $searchResults = [];
 if (!empty($searchQuery)) {
     $searchQueryEscaped = mysqli_real_escape_string($mysqli, $searchQuery);
     $searchQuerySql = "
-        SELECT id, name, email, 'users' AS source FROM users WHERE name LIKE '%$searchQueryEscaped%' OR email LIKE '%$searchQueryEscaped%'
-        UNION
-        SELECT order_id AS id, user_name AS name, NULL AS email, 'order_details' AS source FROM order_details WHERE user_name LIKE '%$searchQueryEscaped%'
-    ";
+        SELECT id, name, email, 'users' AS source FROM pawsnplay_users.users WHERE name LIKE '%$searchQueryEscaped%' OR email LIKE '%$searchQueryEscaped%'
+         ";
     $searchResults = mysqli_fetch_all(mysqli_query($mysqli, $searchQuerySql), MYSQLI_ASSOC);
 }
 ?>
@@ -116,13 +117,14 @@ if (!empty($searchQuery)) {
         }
 
         .content {
-            padding: 20px;
+            padding: 30px;
         }
 
         section {
             flex-grow: 1;
             padding-left: 350px;
             margin-bottom: 30%;
+
         }
 
         h1 {
@@ -131,7 +133,7 @@ if (!empty($searchQuery)) {
 
         .row {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: initial;
         }
 
         .col-sm-4 {
@@ -165,6 +167,7 @@ if (!empty($searchQuery)) {
 
         .customers-card {
             background-color: #2A629A;
+
         }
 
         .orders-card {
@@ -181,42 +184,20 @@ if (!empty($searchQuery)) {
         }
 
         .inbox-container {
-            max-width: 600px;
+            max-width: 50%;
             margin: 50px auto;
             padding: 20px;
             background: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
 
-        .message {
-            border-bottom: 1px solid #ddd;
-            padding: 10px 0;
-        }
-
-        .message:last-child {
-            border-bottom: none;
-        }
-
-        .message-header {
-            font-weight: bold;
-        }
-
-        .message-email {
-            color: #888;
-        }
-
-        .message-body {
-            margin-top: 10px;
-        }
-
-        .message-time {
-            color: #bbb;
-            font-size: 12px;
+            margin-left: 40%;
+            margin-top: 5%;
+            margin-bottom: 30%;
         }
     </style>
 </head>
 
-<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+<bod id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
     <div class="container-fluid">
         <?php include 'dashboard.php'; ?>
@@ -232,13 +213,11 @@ if (!empty($searchQuery)) {
                     <li><a href="admin.php#totalsales">TOTAL SALES</a></li>
                     <li><a href="admin.php#messages">MESSAGES</a></li>
                     <li><a href="logout.php">LOGOUT</a></li>
-                    <form class="navbar-form" method="GET" action="admin.php">
+                    <form class="navbar-form" action="search.php" method="GET">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search" name="search"
-                                value="<?php echo htmlspecialchars($searchQuery); ?>">
-                            <button type="submit" class="btn btn-default">Submit</button>
+                            <input type="text" name="search" class="form-control" placeholder="Search...">
                         </div>
-
+                        <button type="submit" class="btn btn-default">Search</button>
                     </form>
                 </ul>
 
@@ -247,58 +226,64 @@ if (!empty($searchQuery)) {
             <section id="dashboard">
                 <!-- Main Content -->
                 <img height="200px" width="400px" src="dashboard.png" alt="dashboard">
+                <br>
                 <div class="col-sm-9 content">
+                    <center>
+                        <div class="row">
+                            <!-- Customers Card -->
+                            <div class="col-sm-4">
+                                <div class="dashboard-card customers-card">
+                                    <h2 class="card-title">Customers</h2>
+                                    <p>Total customers: <strong><br><?php echo $total_customers; ?></strong></p>
+                                </div>
+                            </div>
 
-                    <div class="row">
-                        <!-- Customers Card -->
-                        <div class="col-sm-4">
-                            <div class="dashboard-card customers-card">
-                                <h2 class="card-title">Customers</h2>
-                                <p>Total customers: <strong><br><?php echo $total_customers; ?></strong></p>
+                            <!-- Orders Card -->
+                            <div class="col-sm-4">
+                                <div class="dashboard-card orders-card">
+                                    <h2 class="card-title">Orders</h2>
+                                    <p>Total orders:<strong><br><?php echo $total_orders; ?></strong></p>
+                                </div>
+                            </div>
+
+                            <!-- Income Card -->
+                            <div class="col-sm-4">
+                                <div class="dashboard-card sales-card">
+                                    <h2 class="card-title">Total Sales</h2>
+                                    <p>Total Sales:<strong><br>₱ <?php echo $overall_total; ?></strong></p>
+                                </div>
                             </div>
                         </div>
-
-                        <!-- Orders Card -->
-                        <div class="col-sm-4">
-                            <div class="dashboard-card orders-card">
-                                <h2 class="card-title">Orders</h2>
-                                <p>Total orders:<strong><br><?php echo $total_orders; ?></strong></p>
-                            </div>
-                        </div>
-
-                        <!-- Income Card -->
-                        <div class="col-sm-4">
-                            <div class="dashboard-card sales-card">
-                                <h2 class="card-title">Total Sales</h2>
-                                <p>Total Sales:<strong><br>₱ <?php echo $overall_total; ?></strong></p>
-                            </div>
-                        </div>
-                    </div>
-
+                    </center>
                 </div>
             </section>
-
             <section>
+                <?php if (isset($error)): ?>
+                    <div class="alert alert-danger">
+                        <?php echo htmlspecialchars($error); ?>
+                    </div>
+                <?php endif; ?>
 
                 <?php if (!empty($searchResults)): ?>
                     <section id="search-results">
                         <h2>Search Results</h2>
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                 
+                                    <th>Source</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($searchResults as $result): ?>
                                     <tr>
-                                        <td><?php echo $result['id']; ?></td>
-                                        <td><?php echo $result['name']; ?></td>
-                                        <td><?php echo $result['email'] ?? 'N/A'; ?></td>
-                                        
+                                        <td><?php echo htmlspecialchars($result['id']); ?></td>
+                                        <td><?php echo htmlspecialchars($result['name']); ?></td>
+                                        <td><?php echo isset($result['email']) ? htmlspecialchars($result['email']) : 'N/A'; ?>
+                                        </td>
+                                        <td><?php echo htmlspecialchars($result['source']); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -306,109 +291,109 @@ if (!empty($searchQuery)) {
                     </section>
                 <?php endif; ?>
         </div>
-    </div>
-    </section>
+        <button class="btn btn=default"><a href="admin.php">Back</a></button>
+        </section>
 
-    <section id="customers">
-        <img height="200px" width="400px" src="customers.png" alt="customers">
-        <div class="container table-container">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php include 'customers.php'; ?>
-                </tbody>
-            </table>
-        </div>
-    </section>
 
-    <section id="orders">
-        <img height="200px" width="400px" src="pendingadmin.png" alt="pending">
-        <div class="container table-container">
-            <table class="table table-bordered table-stripe">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Order Number</th>
-                        <th>User ID</th>
-                        <th>Customer Name</th>
-                        <th>Order Date</th>
-                        <th>Total Amount</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php include 'orders.php'; ?>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <section>
-        <div class="container table-container">
-            <img height="200px" width="400px" src="completedadmin.png" alt="completed">
-            <table class="table table-bordered table-stripe">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Customer ID</th>
-                 
-                        <th>Reservation Date</th>
-                        <th>Total Price</th>
-                        <th>Complete At</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($completedOrders as $order): ?>
+        <section id="customers" class="inbox-container table-container">
+            <img height="200px" width="400px" src="customers.png" alt="customers">
+            <div class="container table-container">
+                <table class="table table-bordered table-stripe">
+                    <thead>
                         <tr>
-                            <td><?php echo $order['order_id']; ?></td>
-                            <td><?php echo $order['user_id']; ?></td>
-                           
-                            <td><?php echo $order['reservation_date']; ?></td>
-                            <td>P<?php echo number_format($order['total_price'], 2); ?></td>
-                            <td><?php echo $order['deleted_at']; ?></td>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
                         </tr>
-                    <?php endforeach; ?>
-                    <?php if (empty($completedOrders)): ?>
+                    </thead>
+                    <tbody>
+                        <?php include 'customers.php'; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="orders" class="inbox-container table-container">
+            <img height="200px" width="400px" src="pendingadmin.png" alt="pending">
+            <div class="container table-container">
+                <table class="table table-bordered table-stripe">
+                    <thead>
                         <tr>
-                            <td colspan="6" class="text-center">No completed orders found.</td>
+                            <th>ID</th>
+                            <th>Order Number</th>
+                            <th>User ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Date</th>
+                            <th>Total Amount</th>
+                            <th>Action</th>
                         </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-    </section>
+                    </thead>
+                    <tbody>
+                        <?php include 'orders.php'; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-    <section id="totalsales">
-        <img height="200px" width="400px" src="totalsales.png" alt="total sales">
-        <br>
-        <h1>₱<?php echo $overall_total; ?></h1>
-    </section>
+        <section class="inbox-container table-container">
+            <div class="container table-container">
+                <img height="200px" width="400px" src="completedadmin.png" alt="completed">
+                <table class="table table-bordered table-stripe">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer ID</th>
+                            <th>Reservation Date</th>
+                            <th>Total Price</th>
+                            <th>Completed At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($completedOrders as $order): ?>
+                            <tr>
+                                <td><?php echo $order['order_id']; ?></td>
+                                <td><?php echo $order['user_id']; ?></td>
 
-    <section id="messages">
-        <div class="inbox-container table-container">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email Address</th>
-                        <th>Message</th>
-                        <th>Message Received at</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php include 'messages.php'; ?>
-                </tbody>
-            </table>
-        </div>
-    </section>
+                                <td><?php echo $order['reservation_date']; ?></td>
+                                <td>P<?php echo number_format($order['total_price'], 2); ?></td>
+                                <td><?php echo $order['deleted_at']; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <?php if (empty($completedOrders)): ?>
+                            <tr>
+                                <td colspan="6" class="text-center">No completed orders found.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="totalsales" class="inbox-container table-container">
+            <img height="200px" width="400px" src="totalsales.png" alt="total sales">
+            <br>
+            <h1>₱<?php echo $overall_total; ?></h1>
+        </section>
+
+        <section id="messages" class="container">
+            <div class="inbox-container table-container">
+                <table class="table table-bordered table-stripe">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email Address</th>
+                            <th>Message</th>
+                            <th>Message Received at</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php include 'messages.php'; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
 
-</body>
+        </body>
 
 </html>

@@ -5,7 +5,7 @@
  */
 
 $databaseHost     = 'localhost';
-$databaseName     = 'pawsnplay_users';
+$databaseName     = 'pawsnplay_admin';
 $databaseUsername = 'root';
 $databasePassword = '';
 

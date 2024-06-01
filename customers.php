@@ -12,9 +12,12 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+include ("includedb_admin.php");
+include ("includedb.php");
+include ("config.php");
 
 // Retrieve customer details froms the database
-$sql = "SELECT * FROM users";
+$sql = "SELECT * FROM pawsnplay_users.users";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

@@ -1,6 +1,6 @@
 <?php
 //including the database connection file
-include_once ("includedb.php");
+include_once ("includedb_admin.php");
 
 // Check connection
 if ($mysqli->connect_error) {

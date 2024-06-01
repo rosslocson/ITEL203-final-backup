@@ -10,6 +10,9 @@ session_start();
 
 // Create database connection using config file
 include_once("includedb.php");
+include_once("includedb_admin.php");
+include_once("includedb_orders.php");
+include_once("config.php");
 
 // If form submitted, collect email and password from form
 if (isset($_POST['login'])) {
@@ -18,7 +21,7 @@ if (isset($_POST['login'])) {
         $password = $_POST['password'];
 
         // Retrieve the hashed password from the database for the given email
-        $result = mysqli_query($mysqli, "SELECT password FROM admins WHERE email='$email'");
+        $result = mysqli_query($mysqli, "SELECT password FROM pawsnplay_admin.admins WHERE email='$email'");
 
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();

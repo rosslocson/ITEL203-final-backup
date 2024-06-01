@@ -1,9 +1,13 @@
 <?php
-include 'includedb.php';
+
+include ("includedb.php");
+include ("includedb_admin.php");
+include ("config.php");
+include ("includedb_orders.php");
 
 
 // Retrieve customer details froms the database
-$sql = "SELECT * FROM messages";
+$sql = "SELECT * FROM pawsnplay_admin.messages";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

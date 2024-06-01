@@ -3,9 +3,11 @@ session_start();
 
 // Include your database connection file
 include_once("includedb.php");
-include_once("config.php");
+include("config.php");
+include("includedb_admin.php");
+include("includedb_orders.php");
 
-// Check if user is logged in
+// Check if the user is logged in
 if (!isset($_SESSION['email'])) {
     echo json_encode(array("success" => false, "message" => "User not logged in."));
     exit;
@@ -15,7 +17,12 @@ if (!isset($_SESSION['email'])) {
 $email = $_SESSION['email'];
 
 // Query to fetch user data
-$result = mysqli_query($mysqli, "SELECT * FROM pawsnplay.users WHERE email='$email'");
+$result = mysqli_query($mysqli, "SELECT * FROM pawsnplay_users.users WHERE email='$email'");
+if (!$result) {
+    echo json_encode(array("success" => false, "message" => "Error fetching user: " . mysqli_error($mysqli)));
+    exit;
+}
+
 $user = mysqli_fetch_assoc($result);
 
 // Check if user exists
@@ -27,11 +34,26 @@ if (!$user) {
 $userId = $user['id'];
 
 // Query to fetch appointment details for the logged-in user
-$query = "SELECT od.reservation_date, oi.order_id, oi.pet_name, oi.product_name FROM pawsnplay.order_items oi JOIN pawsnplay.order_details od ON oi.order_id = od.order_id WHERE oi.user_id='$userId'";
+$query = "
+    SELECT 
+        pawsnplay.order_details.reservation_date, 
+        pawsnplay.order_items.order_id, 
+        pawsnplay.order_items.pet_name, 
+        pawsnplay.order_items.product_name 
+    FROM 
+        pawsnplay.order_items 
+    JOIN 
+        pawsnplay.order_details
+    ON
+    pawsnplay.order_items.order_id = pawsnplay.order_details.order_id 
+    WHERE 
+    pawsnplay.order_items.user_id='$userId'
+";
 $result = mysqli_query($mysqli, $query);
 
 if (!$result) {
-    die(json_encode(array("success" => false, "message" => "Error fetching appointments: " . mysqli_error($mysqli))));
+    echo json_encode(array("success" => false, "message" => "Error fetching appointments: " . mysqli_error($mysqli)));
+    exit;
 }
 
 // Fetch appointments and store in an array
@@ -46,7 +68,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 
 // Return appointments data as JSON
-echo json_encode($appointments);
+echo json_encode(array("success" => true, "data" => $appointments));
 
 // Close database connection
 mysqli_close($mysqli);

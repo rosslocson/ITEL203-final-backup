@@ -12,18 +12,23 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+include ("includedb.php");
+include ("includedb_admin.php");
+include ("config.php");
+
+
 
 // SQL query to fetch all orders
 $sql = "SELECT order_details.id, 
 order_details.order_id, 
 order_details.user_id, 
-users.name, 
+pawsnplay_users.users.name, 
 order_details.reservation_date, 
 order_details.total_price  FROM order_details
 JOIN 
-    users 
+    pawsnplay_users.users 
 ON 
-    order_details.user_id = users.id";
+    order_details.user_id = pawsnplay_users.users.id";
 $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {

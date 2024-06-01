@@ -1,31 +1,41 @@
 <?php
-// Include your database connection file
-include_once("includedb.php");
+include ("config.php");
+include  ("includedb.php");
+include  ("includedb_admin.php");
 
-// Query to fetch all pets
-$query = "SELECT * FROM petcare.pets";
-$result = mysqli_query($mysqli, $query);
+include  ("includedb_orders.php");
+session_start();
 
-if (!$result) {
-    die(json_encode(array("success" => false, "message" => "Error fetching pets: " . mysqli_error($mysqli))));
+// Check if user is logged in
+if (!isset($_SESSION['email'])) {
+    header("location: index.html");
+    exit;
 }
 
-// Fetch pets and store in an array
-$pets = array();
-while ($row = mysqli_fetch_assoc($result)) {
-    $pets[] = array(
-        "id" => $row["id"],
-        "name" => $row["name"],
-        "type" => $row["type"],
-        "breed" => $row["breed"],
-        "birthday" => $row["birthday"],
-        "gender" => $row["gender"]
-    );
+// Get the user's email from the session
+$email = $_SESSION['email'];
+
+// Query to fetch user data
+$result = mysqli_query($mysqli, "SELECT * FROM pawsnplay_users.users WHERE email='$email'");
+$user = mysqli_fetch_assoc($result);
+
+// Check if user exists
+if (!$user) {
+    echo json_encode([]);
+    exit;
 }
 
-// Return pets data as JSON
+// Get the owner_id from the fetched user data
+$owner_id = $user['id'];
+
+// Query to fetch pets data
+$pets_result = mysqli_query($mysqli, "SELECT * FROM pawsnplay_pets.pets WHERE owner_id='$owner_id'");
+$pets = [];
+
+while ($pet = mysqli_fetch_assoc($pets_result)) {
+    $pets[] = $pet;
+}
+
 echo json_encode($pets);
-
-// Close database connection
-mysqli_close($mysqli);
+$mysqli->close();
 ?>

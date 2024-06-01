@@ -1,4 +1,5 @@
 <?php
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -13,8 +14,14 @@ if ($conn->connect_error) {
 }
 
 
+include ("includedb.php");
+include ("includedb_admin.php");
+include ("config.php");
+
+
+
 //Retrieve total number of users
-$sql = "SELECT COUNT(*) as total_customers FROM users";
+$sql = "SELECT COUNT(*) as total_customers FROM pawsnplay_users.users";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -27,7 +34,7 @@ if ($result->num_rows > 0) {
 
 
 // Retrieve total income from the database
-$sql = "SELECT total_price FROM completed_orders";
+$sql = "SELECT total_price FROM pawsnplay.completed_orders";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -45,7 +52,7 @@ if ($result->num_rows > 0) {
 
 //Retrieve total number of orders 
 
-$sql = "SELECT COUNT(*) as total_orders FROM order_details";
+$sql = "SELECT COUNT(*) as total_orders FROM pawsnplay.order_details";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -58,7 +65,7 @@ if ($result->num_rows > 0) {
        
 
 // SQL query to fetch all completed orders
-$sql = "SELECT id, order_id, user_id, reservation_date, total_price, deleted_at FROM completed_orders";
+$sql = "SELECT id, order_id, user_id, reservation_date, total_price, deleted_at FROM pawsnplay.completed_orders";
 $result = $conn->query($sql);
 
 $completed_orders = [];

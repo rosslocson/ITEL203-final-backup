@@ -2,7 +2,9 @@
 session_start();
 
 include_once ("includedb.php");
-include 'config.php';
+include ("config.php");
+include ("includedb_admin.php");
+include ("includedb_orders.php");
 
 // Check if user is logged in
 if (!isset($_SESSION['email'])) {
@@ -14,7 +16,7 @@ if (!isset($_SESSION['email'])) {
 $email = $_SESSION['email'];
 
 // Query to fetch user data
-$result = mysqli_query($mysqli, "SELECT * FROM pawsnplay.users WHERE email='$email'");
+$result = mysqli_query($mysqli, "SELECT * FROM pawsnplay_users.users WHERE email='$email'");
 $user = mysqli_fetch_assoc($result);
 
 // Check if user exists
@@ -46,7 +48,7 @@ $completedOrders = mysqli_fetch_all($completedOrdersResult, MYSQLI_ASSOC);
 
 //Retrieving Owner's Pet/s
 // Fetch the user's pets
-$userPetsResult = mysqli_query($mysqli, "SELECT * FROM petcare.pets WHERE owner_id={$user['id']}");
+$userPetsResult = mysqli_query($mysqli, "SELECT * FROM pawsnplay_pets.pets WHERE owner_id={$user['id']}");
 $userPets = mysqli_fetch_all($userPetsResult, MYSQLI_ASSOC);
 
 
@@ -86,6 +88,10 @@ $userPets = mysqli_fetch_all($userPetsResult, MYSQLI_ASSOC);
             border-radius: 5%;
             margin-left: 9%;
             margin-top: 2%;
+        }
+
+        section {
+            margin-bottom: 30%;
         }
     </style>
 
